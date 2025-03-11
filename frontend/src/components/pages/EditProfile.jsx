@@ -1,0 +1,188 @@
+import React, {  useState } from 'react'
+import Dashbord from './Dashbord'
+function EditProfile() {
+
+    const [formData, setFormData] = useState({
+        id: "",
+        name: "",
+        logo: "",
+        address: "",
+        website: "",
+        email: "",
+        phone: "",
+        contactPerson: "",
+        status: "Approved",
+      });
+    
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Form Submitted:", formData);
+      };
+  return (
+    <>
+   <div className='d-flex
+    '>
+      <div><Dashbord/></div>
+      
+      <div className='p-5'> <div className="container-fluid mt-5">
+      <div className="card shadow p-4">
+        <h2 className="text-center mb-4">Institution Details</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            {/* ID */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">ID</label>
+              <input
+                type="text"
+                className="form-control"
+                name="id"
+                value={formData.id}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Name */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Logo */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Logo</label>
+              <input
+                type="file"
+                className="form-control"
+                name="logo"
+                accept="image/*"
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Address */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Address</label>
+              <input
+                type="text"
+                className="form-control"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Website */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Website</label>
+              <input
+                type="url"
+                className="form-control"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Phone</label>
+              <input
+                type="tel"
+                className="form-control"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Contact Person */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Contact Person</label>
+              <input
+                type="text"
+                className="form-control"
+                name="contactPerson"
+                value={formData.contactPerson}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            {/* Status */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Status</label>
+              <select
+                className="form-select"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+              >
+                <option value="Approved">Approved</option>
+                <option value="Blocked">Blocked</option>
+              </select>
+            </div>
+
+            {/* Submit & Reset Buttons */}
+            <div className="col-12 text-center mt-4">
+              <button type="submit" className="btn btn-success me-3">
+                Submit
+              </button>
+              <button
+                type="reset"
+                className="btn btn-danger"
+                onClick={() =>
+                  setFormData({
+                    id: "",
+                    name: "",
+                    logo: "",
+                    address: "",
+                    website: "",
+                    email: "",
+                    phone: "",
+                    contactPerson: "",
+                    status: "Approved",
+                  })
+                }
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div></div>
+      
+      
+      </div>
+      </>
+  )
+}
+
+export default EditProfile
