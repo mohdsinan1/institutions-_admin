@@ -1,0 +1,33 @@
+/* General Styling */
+body {
+    background: linear-gradient(135deg, #f0f2f5, #d6e4ff);
+  }
+  
+  /* Course Card Styling */
+  .course-card {
+    border-radius: 10px;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card Header Styling */
+  .card-header {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .course-card {
+      margin-bottom: 20px;
+    }
+  }
+  

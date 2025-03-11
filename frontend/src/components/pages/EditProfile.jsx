@@ -1,5 +1,6 @@
 import React, {  useState } from 'react'
 import Dashbord from './Dashbord'
+import '../style/EditProfile.css'
 function EditProfile() {
 
     const [formData, setFormData] = useState({
@@ -28,8 +29,8 @@ function EditProfile() {
     '>
       <div><Dashbord/></div>
       
-      <div className='p-5'> <div className="container-fluid mt-5">
-      <div className="card shadow p-4">
+      <div className='p-5  col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5'> <div className="container-fluid mt-5">
+      <div className="card shadow p-4 ">
         <h2 className="text-center mb-4">Institution Details</h2>
         <form onSubmit={handleSubmit}>
           <div className="row">
