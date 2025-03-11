@@ -24,12 +24,12 @@ function ViewProfile() {
     '>
       <div><Dashbord/></div>
       
-      <div className=' container-fluid '>
+      <div className=' container-fluid  '>
 
       <div className="container-fluid  mt-5 h-75">
-      <div className="emp-profile bg-white p-4 shadow-lg rounded h-75
+      <div className="emp-profile bg-white p-5 shadow-lg rounded h-75
      ">
-       <form className="p-4">
+       <form className="">
   <div className="row align-items-center g-4">
     {/* Profile Image */}
     <div className="col-md-4 text-center">
