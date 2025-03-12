@@ -27,7 +27,7 @@ function ViewProfile() {
       <div className=' container-fluid '>
 
       <div className="container-fluid  mt-5 h-75">
-      <div className="emp-profile bg-white p-4 shadow-lg rounded h-75
+      <div className="emp-profile bg-white p-4 shadow-lg rounded h-100
      ">
        <form className="p-4">
   <div className="row align-items-center g-4">
