@@ -1,12 +1,31 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 const LoginPopup = ({ setShowLogin }) => {
+  const navigate = useNavigate()
   const [currState, setCurrState] = useState("Login");
+const[email,setemail] =useState('')
+const[password,setPassword] = useState('')
+// console.log("email",email);
+
+//   console.log("pass",password);
+  
+  const setauthentication =(e)=>{
+    e.preventDefault();
+    if(email === "adhil@gmail.com" && password ==="12345678"){
+      navigate('/createprofile')
+      console.log("worked");
+      
+    }else{
+      console.log("Invalid Credentials!");
+      
+    }
+  }
 
   return (
     <div className="login-popup">
-      <form className="login-popup-container">
+      <form className="login-popup-container " onSubmit={setauthentication}>
         <div className="login-popup-title">
           <h2>{currState}</h2>
 
@@ -16,10 +35,10 @@ const LoginPopup = ({ setShowLogin }) => {
           {currState === "Login" ? null : (
             <input type="text" placeholder="Enter Your name" required />
           )}
-          <input type="email" placeholder="Enter Your email" required />
-          <input type="password" placeholder="Enter Your Password" required />
+          <input type="email" placeholder="Enter Your email" required onChange={(e)=>{setemail(e.target.value)}} />
+          <input type="password" placeholder="Enter Your Password" required onChange={(e)=>{setPassword(e.target.value)}}/>
         </div>
-        <button className="looop">
+        <button className="looop" type="submit">
           {currState === "Sign Up" ? "Create account" : "Login"}
         </button>
         <div className="login-popup-condition">

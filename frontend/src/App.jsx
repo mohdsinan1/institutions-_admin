@@ -5,6 +5,7 @@ import MangeStudents from "./components/pages/MangeStudents";
 import EditProfile from "./components/pages/EditProfile";
 import ViewProfile from "./components/pages/ViewProfile";
 import Login from "./components/Login/Login"
+import CreateProfile from "./components/pages/CreateProfile";
 
 
 
@@ -21,6 +22,7 @@ function App() {
     <Route path = "mangestudents" element={ <MangeStudents/>}/>
     <Route path="mangecourses" element ={ <MangeCourses/>}/>
     <Route path="voucher" element={<Voucher/>}/>
+    <Route path ="createprofile" element ={<CreateProfile/>}/>
    </Routes>
     
     </>

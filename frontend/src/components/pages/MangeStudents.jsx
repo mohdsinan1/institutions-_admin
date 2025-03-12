@@ -32,7 +32,7 @@ function MangeStudents() {
           <Dashbord />
         </div>
 
-        <div className="p-5 " >
+        <div className="p-5  col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5 " >
           <div className="container-fluid mt-3">
             <div className="card shadow p-3">
               <h4 className="text-center mb-5 ">Student Registration</h4>
