@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../style/CreateProfile.css'
 
 function CreateProfile() {
     const navigate= useNavigate()
@@ -19,7 +20,7 @@ const createProfile=(e)=>{
 e.preventDefault()
 console.log(profile);
 
-navigate('/viewprofile')
+navigate('/viewprofile',{state:{profile}})
 
 }
 
@@ -27,7 +28,8 @@ navigate('/viewprofile')
 
 
   return (
-    <div> <div className="container mt-5">
+    <div>
+       <div className="container mt-5">
     <div className="card shadow-lg p-4">
       <h2 className="text-center mb-4">Create Institution Profile</h2>
       <form onSubmit={createProfile} >

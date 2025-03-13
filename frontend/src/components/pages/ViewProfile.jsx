@@ -1,10 +1,18 @@
 import React from "react";
 import Dashbord from "./Dashbord";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "../style/ViewProfile.css"; // Import custom styles
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ViewProfile() {
-  const institution = {
+
+  const navigate = useNavigate()
+  const handleEditClick =()=>{
+    navigate('/editprofile',{state:{profile:institution}})
+  }
+  const location =useLocation()
+  const institution =location.state?.profile || {
     id: "Kshiti123",
     name: "Kshiti Ghelani",
     email: "kshitighelani@gmail.com",
@@ -53,7 +61,7 @@ function ViewProfile() {
 
     {/* Edit Button */}
     <div className="col-md-2 text-end">
-      <button type="button" className="btn btn-primary btn-sm px-3">
+      <button onClick={handleEditClick} type="button" className="btn btn-primary btn-sm px-3">
         Edit Profile
       </button>
     </div>

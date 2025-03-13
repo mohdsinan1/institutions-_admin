@@ -1,33 +1,92 @@
-/* General Styling */
+/* Background */
 body {
-    background: linear-gradient(135deg, #f0f2f5, #d6e4ff);
-  }
-  
-  /* Course Card Styling */
+  background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* Course Card Styling */
+.course-card {
+  border-radius: 12px;
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #dee2e6;
+  overflow: hidden;
+  height: 43vh;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Header Styling */
+.card-header {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  color: #2c3e50;
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Text Styling */
+h5, h6 {
+  color: #34495e;
+}
+
+.text-muted {
+  color: #7b8a8b !important;
+}
+
+/* Soft Badge Styling */
+.badge {
+  background: #d3dbe0;
+  color: #141516;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+/* Buttons */
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  transition: 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: #007bff;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #e74c3c;
+  color: #e74c3c;
+  transition: 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background: #e74c3c;
+  color: white;
+}
+
+/* Search Input */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
   .course-card {
-    border-radius: 10px;
-    
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Card Header Styling */
-  .card-header {
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .course-card {
       margin-bottom: 20px;
-    }
   }
-  
+}
