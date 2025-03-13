@@ -29,7 +29,7 @@ function ViewProfile() {
     <>
 <div className='d-flex
     '>
-      <div><Dashbord/></div>
+      <div><Dashbord/></div> 
       
       <div className=' container-fluid  '>
 
