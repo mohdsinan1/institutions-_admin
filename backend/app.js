@@ -1,4 +1,5 @@
 
+
 const express = require ("express")
 const dotenv = require('dotenv').config()
  const port = process.env.PORT || 3001
@@ -8,9 +9,13 @@ const institutionRouter = require ('../backend/routes/institutionRouter')
 const ConnecteDB = require("./config/db")
  const app = express();
 
- app.use(express.json())
+app.use(express.json());
 
- app.use(cors())
+app.use(cors());
+const PORT = process.env.PORT || 7200;
+connectdb();
+
+app.use("/auth", route);
 
  ConnecteDB()
 
@@ -24,7 +29,4 @@ app.use('/institution', institutionRouter);
 
 
 
- app.listen(port, ()=>{
-    console.log(`server is runing at http://localhost:${port}`)
-    
- })
+app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
