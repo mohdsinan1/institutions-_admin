@@ -1,10 +1,11 @@
 const express = require("express");
-const { Login } = require("../controllers/AuthController");
+const controller = require("../controllers/student");
 
 const routes =express.Router()
 
 
-routes.get('/', )
+routes.post('/createstudent',controller.createStudent )
+routes.get('/students',controller.getAllStudents)
 
 
 
