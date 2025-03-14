@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config()
  const route =require('./routes/route')
 const cors = require('cors');
 const connectdb = require('./config/db');
+const routes = require('./routes/route');
  const app = express();
 
  app.use(express.json())
@@ -14,6 +15,7 @@ const connectdb = require('./config/db');
  connectdb()
 
  app.use('/api', route);
+ app.use('/voucher',require('./routes/voucherRoute'))
 
 
 
