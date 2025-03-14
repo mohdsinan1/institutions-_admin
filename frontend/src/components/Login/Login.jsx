@@ -1,27 +1,44 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../../redux/features/AuthSlice";
 
-const LoginPopup = ({ setShowLogin }) => {
+const LoginPopup = () => {
   const navigate = useNavigate()
-  const [currState, setCurrState] = useState("Login");
-const[email,setemail] =useState('')
-const[password,setPassword] = useState('')
-// console.log("email",email);
-
-//   console.log("pass",password);
+  const dispatch = useDispatch()
   
-  const setauthentication =(e)=>{
+  const [currState, setCurrState] = useState("Login");
+
+const[email,setemail] =useState("")
+
+const[password,setPassword] = useState('')
+
+console.log("email",email);
+
+  console.log("pass",password);
+
+
+  const {loading ,user,token} = useSelector((state) => state.auth)
+   
+  console.log(status);
+  
+  const setauthentication = async (e)=>{
     e.preventDefault();
-    if(email === "adhil@gmail.com" && password ==="12345678"){
-      navigate('/createprofile')
-      console.log("worked");
-      
-    }else{
-      console.log("Invalid Credentials!");
-      
-    }
+
+    dispatch(loginUser({ email, password })).then((result)=>{
+      if (result.meta.requestStatus === "fulfilled"){
+        console.log(user,token);
+        navigate('/createprofile')
+      }
+      else{
+        console.log("login  failed");
+        navigate("/");
+        
+      }
+    })    
   }
+ 
 
   return (
     <div className="login-popup">
@@ -39,7 +56,7 @@ const[password,setPassword] = useState('')
           <input type="password" placeholder="Enter Your Password" required onChange={(e)=>{setPassword(e.target.value)}}/>
         </div>
         <button className="looop" type="submit">
-          {currState === "Sign Up" ? "Create account" : "Login"}
+          {status ==="loading"? "loading .." : "login"}
         </button>
         <div className="login-popup-condition">
           <p className="fry">
@@ -58,6 +75,7 @@ const[password,setPassword] = useState('')
           </p>
         )}
       </form>
+    
     </div>
   );
 };

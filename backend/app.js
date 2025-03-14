@@ -1,20 +1,20 @@
+const express = require("express");
+const dotenv = require("dotenv").config();
 
-const express = require('express');
-const dotenv = require('dotenv').config()
- const port = process.env.PORT || 3001
- const route =require('./routes/route')
-const cors = require('cors')
- const app = express();
+const route = require("./routes/route");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const app = express();
+//  const port = process.env.PORT || 3003
 
- app.use(express.json())
+app.use(express.json());
 
- app.use(cors())
+app.use(cors());
+const PORT = process.env.PORT || 7200;
+connectDB();
 
-app.get('/',route)
+app.use("/auth", route);
 
+app.use("/institution",)
 
-
- app.listen(port, ()=>{
-    console.log(`server is runing at http://localhost:${port}`)
-    
- })
+app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
