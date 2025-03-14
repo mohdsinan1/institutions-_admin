@@ -17,6 +17,10 @@ const ConnecteDB = require("./config/db")
 app.get('/',route)
 app.use('/uploads', express.static('uploads')); // Serve uploaded images
 app.use('/institution', institutionRouter);
+ 
+
+ app.use('/api', route);
+
 
 
 
