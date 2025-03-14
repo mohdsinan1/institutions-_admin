@@ -1,20 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
-export const signUpUser = createAsyncThunk("auth/signUpUser",async (user) =>{
-  const responce = await fetch ("",{
+export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{rejectWithValue}) =>{
+  try {
+    const responce = await fetch ("https://api.escuelajs.co/api/v1/users/",{
     
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(user),
-  })
-
-return responce.json();
-
-if(!responce.ok){
-  throw new Error("Unauthorized");
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(user),
+    })
   
-}
+    const data =  await responce.json();
+  
+  if(!responce.ok){
+    return rejectWithValue(data.message ||"invalid Credentials")
+    
+  }
+  return data
+  } catch (error) {
+
+    return  rejectWithValue("Network error, please try again");
+    
+    
+  }
 
 })
 
