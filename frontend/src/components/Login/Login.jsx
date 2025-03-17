@@ -26,8 +26,8 @@ console.log("Name",name,"Email",email,"password",password);
 
     dispatch(loginUser({ email, password })).then((result)=>{
       if (result.meta.requestStatus === "fulfilled"){
-        console.log(user,token);
-        navigate('/createprofile')
+
+        navigate('/viewprofile')
       }
       else{
         console.log("login  failed");
@@ -42,9 +42,9 @@ console.log("Name",name,"Email",email,"password",password);
     
     e.preventDefault();
 
-    dispatch(signUpUser({ email, password })).then((result)=>{
+    dispatch(signUpUser({name, email, password })).then((result)=>{
       if (result.meta.requestStatus === "fulfilled"){
-        console.log(user,token);
+       
         navigate('/createprofile')
       }
       else{

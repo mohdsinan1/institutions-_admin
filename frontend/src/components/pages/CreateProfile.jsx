@@ -1,26 +1,44 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../style/CreateProfile.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { createInstitutionProfile, getProfile } from '../../../redux/features/institutionslice'
 
 function CreateProfile() {
+  const dispatch = useDispatch()
+ 
     const navigate= useNavigate()
     const [profile,setProfile] = useState({
         name: "",
-    logo: null,
+
     address: "",
     website: "",
     email: "",
     phone: "",
-    contactPerson: ""
+    contactPerson: "",
     })
     
+    const [logo, setLogo] = useState(null);
    
 
-const createProfile=(e)=>{
-e.preventDefault()
-console.log(profile);
+const createProfile = (e)=> {
+e.preventDefault(); 
 
-navigate('/viewprofile',{state:{profile}})
+ const formDateToSent = new FormData();
+
+ Object.keys(profile).forEach(key => {
+
+  formDateToSent.append(key,profile[key])
+  
+ });
+
+ if(logo){
+  formDateToSent.append("logo",logo)
+ }
+dispatch(createInstitutionProfile(formDateToSent))
+
+navigate("/viewprofile");
+
 
 }
 
@@ -56,7 +74,7 @@ navigate('/viewprofile',{state:{profile}})
               <input
                 type="file"
                 className="form-control"
-                onChange={(e)=>{setProfile({...profile,logo:e.target.files})}}
+                onChange={(e)=>{setProfile({...profile,logo:e.target.files[0]})}}
                 accept="image/*"
                 required
               />

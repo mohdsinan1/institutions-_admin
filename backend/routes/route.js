@@ -1,15 +1,15 @@
 const express = require("express");
-const controller = require("../controllers/AuthController");
-const controller = require("../controllers/student");
+const authController = require("../controllers/AuthController");
+const studentController = require("../controllers/student");
 
 const routes =express.Router()
 
 
 
-routes.post('/signup',controller.register)
-routes.post('/login',controller.Login)
-routes.post('/createstudent',controller.createStudent )
-routes.get('/students',controller.getAllStudents)
+routes.post('/signup',authController.register)
+routes.post('/login',authController.Login)
+routes.post('/createstudent',studentController.createStudent )
+routes.get('/students',studentController.getAllStudents)
 
 
 

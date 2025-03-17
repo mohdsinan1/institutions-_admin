@@ -1,20 +1,18 @@
+const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
+const URI = process.env.CONNECTION_STRING;
 
-const mongoose = require("mongoose")
-const dotenv = require('dotenv')
-const URI = process.env.CONNECTION_STRING
+const ConnecteDB = async () => {
+  try {
+    const conn = await mongoose.connect(URI);
+    console.log(`mongodb connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(`Error:${error.message}`);
+    process.exit(1);
+  }
+};
+mongoose.connection.on("error", (error) =>
+  console.log(` error in mongodb connection`, error)
+);
 
-
-const connectDB = async ()=>{
-    try {
-    const conn  =  await mongoose.connect(URI)
-
-console.log(`mongodbconnection successfully${conn.connection.host}`);
-
-
-    } catch (error) {
-        console.log("MongoDB connection failed:", error.message);
-        process.exit(1);
-    }
-}
-
-module.exports = connectDB;
+module.exports = ConnecteDB;
