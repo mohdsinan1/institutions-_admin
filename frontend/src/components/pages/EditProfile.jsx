@@ -78,6 +78,7 @@ function EditProfile() {
                       type="file"
                       className="form-control"
                       name="logo"
+                      value={formData.logo}
                       accept="image/*"
                       onChange={handleChange}
                     />

@@ -7,16 +7,16 @@
     const [searchTerm, setSearchTerm] = useState("");
     
     const courses = [
-      { title: "Financial Accounting Basics", duration: "3 Months", content: "Covers bookkeeping, ledger entries, balance sheets.", softwares: "QuickBooks, Xero, Tally", bgColor: "bg-dark" },
-      { title: "Advanced Excel for Finance", duration: "2 Months", content: "Learn advanced Excel formulas, financial modeling, and pivot tables.", softwares: "Microsoft Excel", bgColor: "bg-dark" },
-      { title: "Taxation & GST", duration: "4 Months", content: "Covers tax laws, GST filing, compliance, and return filing process.", softwares: "Tally, Cleartax", bgColor: "bg-dark" },
-      { title: "Business Analytics with Python", duration: "5 Months", content: "Data analysis, visualization, and predictive modeling using Python.", softwares: "Python, Pandas, NumPy", bgColor: "bg-dark" },
-      { title: "Investment Management", duration: "3 Months", content: "Learn stock market analysis, portfolio diversification, and risk management.", softwares: "Bloomberg Terminal, Excel", bgColor: "bg-dark" },
-      { title: "Cost & Management Accounting", duration: "4 Months", content: "Covers cost control, budgeting, variance analysis.", softwares: "SAP, Tally", bgColor: "bg-dark" },
-      { title: "Digital Marketing & SEO", duration: "3 Months", content: "Learn SEO, PPC, social media marketing, and content marketing.", softwares: "Google Analytics, SEMrush, Ahrefs", bgColor: "bg-dark" },
-      { title: "Corporate Finance & Valuation", duration: "5 Months", content: "Covers financial statements, corporate financing strategies.", softwares: "Excel, Bloomberg", bgColor: "bg-dark" },
-      { title: "International Trade & Forex", duration: "4 Months", content: "Understand global trade policies, forex markets, and risk hedging techniques.", softwares: "MetaTrader, Reuters", bgColor: "bg-dark" },
-      { title: "Blockchain & Cryptocurrency", duration: "6 Months", content: "Explore blockchain technology, Bitcoin, Ethereum, and crypto regulations.", softwares: "Ethereum, Hyperledger", bgColor: "bg-dark" },
+      { title: "Financial Accounting Basics", duration: "3 Months", content: "Covers bookkeeping, ledger entries, balance sheets.", softwares: "QuickBooks, Xero, Tally" },
+      { title: "Advanced Excel for Finance", duration: "2 Months", content: "Learn advanced Excel formulas, financial modeling, and pivot tables.", softwares: "Microsoft Excel" },
+      { title: "Taxation & GST", duration: "4 Months", content: "Covers tax laws, GST filing, compliance, and return filing process.", softwares: "Tally, Cleartax"},
+      { title: "Business Analytics with Python", duration: "5 Months", content: "Data analysis, visualization, and predictive modeling using Python.", softwares: "Python, Pandas, NumPy"},
+      { title: "Investment Management", duration: "3 Months", content: "Learn stock market analysis, portfolio diversification, and risk management.", softwares: "Bloomberg Terminal, Excel" },
+      { title: "Cost & Management Accounting", duration: "4 Months", content: "Covers cost control, budgeting, variance analysis.", softwares: "SAP, Tally"},
+      { title: "Digital Marketing & SEO", duration: "3 Months", content: "Learn SEO, PPC, social media marketing, and content marketing.", softwares: "Google Analytics, SEMrush, Ahrefs"},
+      { title: "Corporate Finance & Valuation", duration: "5 Months", content: "Covers financial statements, corporate financing strategies.", softwares: "Excel, Bloomberg"},
+      { title: "International Trade & Forex", duration: "4 Months", content: "Understand global trade policies, forex markets, and risk hedging techniques.", softwares: "MetaTrader, Reuters" },
+      { title: "Blockchain & Cryptocurrency", duration: "6 Months", content: "Explore blockchain technology, Bitcoin, Ethereum, and crypto regulations.", softwares: "Ethereum, Hyperledger" },
     ];
 
     // Filter courses based on search term

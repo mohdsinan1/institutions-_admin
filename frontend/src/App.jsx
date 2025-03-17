@@ -12,9 +12,7 @@ import CreateProfile from "./components/pages/CreateProfile";
 function App() {
   return (
     <>
-    
   
-
    <Routes>
     <Route path="/" element ={<Login/>}/>
     <Route path="viewprofile" element ={<ViewProfile/>}/>
