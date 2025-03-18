@@ -1,26 +1,50 @@
-const Institution = require('../model/institution')
+const Institution = require('../model/institutionSchema')
 
 // Create Institution
 const createinstitution = async (req, res) => {
     try {
-        const { name, address, website, email, phone, contactPerson, status } = req.body;
-        const logo = req.file ? req.file.path : null; 
+        const { name,  address, website, email, phone, contactPerson, status } = req.body;
+        const userID = req.headers.userID
+
+        console.log(userID);
+       
+        
+        if (!req.file) {
+            console.log("file Error");
+            
+            return res.status(400).json({ error: "Logo file is required!" });
+           
+        }
+        
+        const logo =  req.file.path 
+       
+
+        if (!name ||!logo || !address || !website || !email || !phone || !contactPerson || !userID) {
+            console.log("fille Error");
+            return res.status(400).json({ error: "All fields are required" });
+        }
 
         const newInstitution = new Institution({
-            name, logo, address, website, email, phone, contactPerson, status
+            name, logo, address, website, email, phone, contactPerson, status,userID
         });
-
+ console.log(newInstitution);
+ 
         await newInstitution.save();
         res.status(201).json({ message: "Institution created successfully", institution: newInstitution });
+        console.log(newInstitution);
+        
     } catch (error) {
+        console.error("Error creating institution:", error);
+
         res.status(500).json({ error: error.message });
     }
 };
 
 
 const viewInstitution = async (req, res) => {
+    const userID = req.headers.userID
     try {
-        const institutions = await Institution.find();
+        const institutions = await Institution.find({userId:userID});
         res.status(200).json(institutions);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -28,7 +52,7 @@ const viewInstitution = async (req, res) => {
 };
 const updateInstitution = async (req, res) => {
     try {
-        const id = req.params.id;
+        const id = req.bod;
         const {  name, address, website, email, phone, contactPerson, status } = req.body;
         const logo = req.file ? req.file.path : null;
 

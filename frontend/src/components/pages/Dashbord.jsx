@@ -1,11 +1,15 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../style/Dashboard.css";
+import { useDispatch } from "react-redux";
+import { logoOut } from "../../../redux/features/AuthSlice";
 
 function Dashboard() {
   const navigate = useNavigate();
+ const dispatch = useDispatch()
 
   const handleLogOut = () => {
+    dispatch(logoOut())
     navigate("/");
   };
 

@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const institutionController = require('../controllers/institutionController');
 const upload = require('../middleware/upload'); // Import Multer middleware
+const protect = require('../middleware/authProtectMiddleware');
 
 // Create Institution with logo upload
-router.post('/', upload.single('logo'), institutionController.createinstitution);
+router.post('/insti', upload.single('logo'), institutionController.createinstitution);
 
 // View all Institutions
 router.get('/', institutionController.viewInstitution);

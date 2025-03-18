@@ -1,20 +1,22 @@
-const auth = require("../model/authSchema");
+const auths = require("../model/authSchema");
 const generateToken =require('../utils/generateToken');
 const bcrypt = require('bcrypt')
 
 const register = async (req, res) => {
   const {name,email,password} = req.body
+  console.log(name,email,password);
+  
   if(!name||!email||!password){
-    res.status(400).json({massage:"fullfile the form"})
+   return res.status(400).json({massage:"fullfile the form"})
   }
   try {
 
-    let user = await auth.findOne({email})
+    let user = await auths.findOne({email})
 
     if(user) return res.status(400).json({message:"user already exsisted"})
     
       const hasedpassword = await bcrypt.hash(password,10)
-const newUser = new auth({
+const newUser = new auths({
   name,
   email,
   password:hasedpassword
@@ -23,12 +25,22 @@ const newUser = new auth({
 
     console.log(newUser);
 
-    res.status(201).json( {massage:"created succsessfuly",toke:generateToken(newUser._id),user})
+    res.status(201).json(
+       {massage:"created succsessfuly",token:generateToken(newUser._id),
+        user:newUser,
+        userID:newUser._id})
   } catch (error) {
+
     console.log("error", error);
     res.status(500).json({message:"internal error"})
   }
 };
+
+
+
+
+
+
 const Login = async (req, res) => {
   try {
     const { email ,password } = req.body;
@@ -37,15 +49,17 @@ const Login = async (req, res) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await auth.findOne({ email });
+    const user = await auths.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ message: "User not found please sign up" });
     }
-   const maching =  bcrypt.compare(password,user.password);
+    console.log("Entered Password:", password);
+    console.log("Stored Hashed Password:", user.password);
+   const maching = await  bcrypt.compare(password,user.password);
 if(!maching) return res.status(400).json({ message: "Invalid credentials" })
 
-    res.status(201).json({masssage:"finded ",token:generateToken(user._id),user});
+    res.status(201).json({masssage:"finded ",token:generateToken(user._id),user:user ,userID:user._id});
   } catch (error) {
     console.log("error", error);
 

@@ -6,6 +6,7 @@ import EditProfile from "./components/pages/EditProfile";
 import ViewProfile from "./components/pages/ViewProfile";
 import Login from "./components/Login/Login"
 import CreateProfile from "./components/pages/CreateProfile";
+import Dashboard from "./components/pages/Dashbord";
 
 
 
@@ -21,6 +22,7 @@ function App() {
     <Route path="mangecourses" element ={ <MangeCourses/>}/>
     <Route path="voucher" element={<Voucher/>}/>
     <Route path ="createprofile" element ={<CreateProfile/>}/>
+    <Route path="dashbord" element = {<Dashboard/>}/>
    </Routes>
     
     </>
