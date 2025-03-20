@@ -50,6 +50,9 @@ const viewInstitution = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
+
 const updateInstitution = async (req, res) => {
     try {
         const id = req.bod;

@@ -1,12 +1,15 @@
 
 const express = require("express");
-const authController = require("../controllers/AuthController");
+// const authController = require("../controllers/AuthController");
 const studentController = require("../controllers/student");
+// const router = require("./voucherRoute");
 
-const routes =express.Router()
+const router =express.Router()
 
 
 
 
-routes.post('/createstudent',studentController.createStudent )
-routes.get('/students',studentController.getAllStudents)
+router.post('/create-student',studentController.createStudent )
+router.get('/students',studentController.getAllStudents)
+
+module.exports =router

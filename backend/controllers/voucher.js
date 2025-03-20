@@ -3,6 +3,8 @@ const Voucher = require ("../model/voucherModel")
 
 const createVoucher =async(req,res)=> {
     try {
+      console.log("request Body",req.body);
+      
       const { noOfVouchers, requestDate } = req.body;
       if (!noOfVouchers || !requestDate) {
         return res.status(400).json({ message: "All fields are required" });

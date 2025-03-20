@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Dashbord from "./Dashbord";
+import axios from "axios";
 
 function MangeStudents() {
   const [formData, setFormData] = useState({
@@ -20,9 +21,32 @@ function MangeStudents() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted", formData);
+    try{
+      const response = await axios.post(" http://localhost:8080/student/create-student",formData)
+      console.log("form data submitted",response.data);
+      alert("Student Registered Successfully!");
+      setFormData({
+        name: "",
+        gender: "",
+        dob: "",
+        email: "",
+        mobile: "",
+        qualification: "",
+        address: "",
+        district: "",
+        state: "",
+        pin: "",
+        course: "",
+      });
+      
+
+    }catch(error){
+      console.error("Error submitting form:", error);
+      alert("Error registering student.");
+
+    }
   };
 
   return (

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
+import axios from "axios"
 import Dashbord from './Dashbord'
 function Voucher() {
   const [voucherRequests, setVoucherRequests] = useState([]);
@@ -11,11 +12,21 @@ function Voucher() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setVoucherRequests([...voucherRequests, formData]);
-    setFormData({ noOfVouchers: "", requestDate: new Date().toISOString().split("T")[0] }); // Reset form
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/voucher/vouchers",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      setVoucherRequests([...voucherRequests, response.data.data]);
+      setFormData({ noOfVouchers: "", requestDate: new Date().toISOString().split("T")[0] });
+    } catch (error) {
+      console.error("Error on voucher request:", error.response?.data || error.message);
+    }
   };
+  
 
 
   return (
