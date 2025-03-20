@@ -163,20 +163,18 @@ function MangeStudents() {
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label">State</label>
-                    <select
-                      className="form-select form-select-sm"
-                      name="state"
+                    <label className="form-label">District</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      name="district"
                       value={formData.state}
                       onChange={handleChange}
                       required
-                    >
-                      <option value="">Select State</option>
-                      <option value="State 1">State 1</option>
-                      <option value="State 2">State 2</option>
-                      <option value="State 3">State 3</option>
-                    </select>
+                    />
                   </div>
+                      
+                  
 
                   <div className="col-md-6">
                     <label className="form-label">PIN</label>
@@ -200,9 +198,9 @@ function MangeStudents() {
                       required
                     >
                       <option value="">Select Course</option>
-                      <option value="Course A">Course A</option>
-                      <option value="Course B">Course B</option>
-                      <option value="Course C">Course C</option>
+                      <option value="Course A">Web Development</option>
+                      <option value="Course B">Mern stack</option>
+                      <option value="Course C">Flutter</option>
                     </select>
                   </div>
 

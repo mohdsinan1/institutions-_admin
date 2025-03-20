@@ -1,90 +1,171 @@
-  import React, { useState } from "react";
-  import Dashbord from "./Dashbord";
-  import "bootstrap/dist/css/bootstrap.min.css";
-  import "../style/ManageCourses.css";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Dashbord from "./Dashbord";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../style/ManageCourses.css";
 
-  function ManageCourses() {
-    const [searchTerm, setSearchTerm] = useState("");
-    
-    const courses = [
-      { title: "Financial Accounting Basics", duration: "3 Months", content: "Covers bookkeeping, ledger entries, balance sheets.", softwares: "QuickBooks, Xero, Tally" },
-      { title: "Advanced Excel for Finance", duration: "2 Months", content: "Learn advanced Excel formulas, financial modeling, and pivot tables.", softwares: "Microsoft Excel" },
-      { title: "Taxation & GST", duration: "4 Months", content: "Covers tax laws, GST filing, compliance, and return filing process.", softwares: "Tally, Cleartax"},
-      { title: "Business Analytics with Python", duration: "5 Months", content: "Data analysis, visualization, and predictive modeling using Python.", softwares: "Python, Pandas, NumPy"},
-      { title: "Investment Management", duration: "3 Months", content: "Learn stock market analysis, portfolio diversification, and risk management.", softwares: "Bloomberg Terminal, Excel" },
-      { title: "Cost & Management Accounting", duration: "4 Months", content: "Covers cost control, budgeting, variance analysis.", softwares: "SAP, Tally"},
-      { title: "Digital Marketing & SEO", duration: "3 Months", content: "Learn SEO, PPC, social media marketing, and content marketing.", softwares: "Google Analytics, SEMrush, Ahrefs"},
-      { title: "Corporate Finance & Valuation", duration: "5 Months", content: "Covers financial statements, corporate financing strategies.", softwares: "Excel, Bloomberg"},
-      { title: "International Trade & Forex", duration: "4 Months", content: "Understand global trade policies, forex markets, and risk hedging techniques.", softwares: "MetaTrader, Reuters" },
-      { title: "Blockchain & Cryptocurrency", duration: "6 Months", content: "Explore blockchain technology, Bitcoin, Ethereum, and crypto regulations.", softwares: "Ethereum, Hyperledger" },
-    ];
+function ManageCourses() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [courses, setCourses] = useState([]);
+  const [newCourse, setNewCourse] = useState({
+    title: "",
+    duration: "",
+    content: "",
+    softwares: "",
+  });
+  const [showForm, setShowForm] = useState(false);
 
-    // Filter courses based on search term
-    const filteredCourses = courses.filter((course) =>
-      course.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  // Fetch courses from backend
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
-    return (
-      <>
-        <div className="d-flex">
-          <div>
-            <Dashbord />
+  const fetchCourses = () => {
+    axios
+      .get("http://localhost:8080/courses/course")
+      .then((response) => {
+        setCourses(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching courses:", error);
+      });
+  };
+
+  // Handle form input change
+  const handleChange = (e) => {
+    setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8080/courses/course", {
+        ...newCourse,
+        softwares: newCourse.softwares.split(",").map((s) => s.trim()), 
+      })
+      .then(() => {
+        fetchCourses(); 
+        setNewCourse({ title: "", duration: "", content: "", softwares: "" });
+        setShowForm(false); 
+      })
+      .catch((error) => {
+        console.error("Error adding course:", error);
+      });
+  };
+
+  // Filter courses based on search term
+  const filteredCourses = courses.filter((course) =>
+    course.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <>
+      <div className="d-flex">
+        <div>
+          <Dashbord />
+        </div>
+
+        <div className="container mt-4 col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5">
+          <h2 className="text-center mb-4 text-primary fw-bold">Manage Courses</h2>
+
+          {/* Add Course Button */}
+          <div className="mb-4 text-end">
+            <button className="btn btn-success" onClick={() => setShowForm(!showForm)}>
+              {showForm ? "Cancel" : "Add Course"}
+            </button>
           </div>
 
-          <div className="container mt-4 col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5">
-            <h2 className="text-center mb-4 text-primary fw-bold">Manage Courses</h2>
-            
-            {/* Search Input */}
-            <div className="mb-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Search for a course..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          {/* Add Course Form */}
+          {showForm && (
+            <div className="card p-3 mb-4">
+              <h5 className="text-center mb-3">Add New Course</h5>
+              <form onSubmit={handleSubmit}>
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Course Title"
+                    name="title"
+                    value={newCourse.title}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Duration "
+                    name="duration"
+                    value={newCourse.duration}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="mb-2">
+                  <textarea
+                    className="form-control"
+                    placeholder="Course Content"
+                    name="content"
+                    value={newCourse.content}
+                    onChange={handleChange}
+                    required
+                  ></textarea>
+                </div>
+                <div className="mb-2">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Softwares Used"
+                    name="softwares"
+                    value={newCourse.softwares}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary w-100">
+                  Submit
+                </button>
+              </form>
             </div>
-            
-            <div className="row">
-              {filteredCourses.map((course, index) => (
-                <div key={index} className="col-lg-4 col-md-6 mb-4">
-                  <div className="card shadow-lg course-card">
-                    <div className={`card-header text-white ${course.bgColor}`}>
-                      <h5 className="m-0">{course.title}</h5>
-                    </div>
-                    <div className="card-body">
-                      <p className="text-muted"><strong>Duration:</strong> {course.duration}</p>
-                      
-                      <div className="mb-3">
-                        <h6 className="fw-semibold">Course Content:</h6>
-                        <p className="text-secondary">{course.content}</p>
-                      </div>
+          )}
 
-                      <div>
-                        <h6 className="fw-semibold">Softwares Used:</h6>
-                        <p className="text-secondary">
-                          {course.softwares.split(",").map((software, idx) => (
-                            <span key={idx} className="badge  me-2">
-                              {software.trim()}
-                            </span>
-                          ))}
-                        </p>
-                      </div>
-                      
-                      {/* Buttons */}
-                      <div className="d-flex justify-content-between mt-3">
-                        <button type="button" className="btn btn-outline-primary">View Details</button>
-                        <button className="btn btn-outline-danger">Purchase</button>
-                      </div>
+          {/* Search Input */}
+          <div className="mb-4">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search for a course..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          <div className="row">
+            {filteredCourses.map((course, index) => (
+              <div key={index} className="col-lg-4 col-md-6 mb-4">
+                <div className="card shadow-lg course-card">
+                  <div className="card-body">
+                    <h5>{course.title}</h5>
+                    <p><strong>Duration:</strong> {course.duration}</p>
+                    <p><strong>Content:</strong> {course.content}</p>
+                    <p><strong>Softwares Used:</strong> {course.softwares.join(", ")}</p>
+
+                    {/* Buttons */}
+                    <div className="d-flex justify-content-between mt-3">
+                      <button type="button" className="btn btn-outline-primary">View Details</button>
+                      <button className="btn btn-outline-danger">Purchase</button>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
+}
 
-  export default ManageCourses;
+export default ManageCourses;
