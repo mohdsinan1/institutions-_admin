@@ -6,7 +6,9 @@ export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{reject
     const responce = await fetch ("http://localhost:8089/auth/signup",{
     
       method: "POST",
-      headers: { "Content-type": "application/json" },
+      headers: { "Content-type": "application/json" ,
+         Authorization: `Bearer ${localStorage.getItem("tokenaccess")}`
+      },
       body: JSON.stringify(user),
     })
   
@@ -28,14 +30,21 @@ export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{reject
 
 
 export const loginUser = createAsyncThunk("auth/loginUser", async (user) => {
+  console.log("login",user);
+  
   const responce = await fetch('http://localhost:8089/auth/login', {
     method: "POST",
-    headers: { "Content-type": "application/json" },
+    headers: { "Content-type": "application/json",
+       Authorization: `Bearer ${localStorage.getItem("tokenaccess")}`,
+     },
+
+
     body: JSON.stringify(user),
   });
   const data =  await responce.json();
   if(!responce.ok){
-    throw new Error(data.message || "Unauthorized");
+    return rejectWithValue(data.message ||"invalid Credentials")
+    
   }
    
    console.log( "redux",data);
@@ -56,7 +65,7 @@ const authSlice = createSlice({
   reducers: {
     logoOut:((state)=>{
     localStorage.removeItem("tokenaccess")
-    localStorage.removeItem("userID")
+   
     state.user = null;    // Clear user data from Redux state
     state.token = null;   // Clear token from Redux state
     state.loading = null;
@@ -73,7 +82,7 @@ const authSlice = createSlice({
           state.user = action.payload.user,
           state.token = action.payload.token
           localStorage.setItem("tokenaccess",action.payload.token);
-          localStorage.setItem("userID",action.payload.userID);
+          
       })
       .addCase(signUpUser.rejected, (state, action) => {
         state.loading = "failed",
@@ -86,7 +95,7 @@ const authSlice = createSlice({
           state.user = action.payload.user,
           state.token = action.payload.token,
           localStorage.setItem("tokenaccess",action.payload.token);
-          localStorage.setItem("userID",action.payload.userID);
+          
          
       })
       .addCase(loginUser.rejected, (state, action) => {

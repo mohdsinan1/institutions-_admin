@@ -1,12 +1,14 @@
+const mongoose = require('mongoose');
 const Institution = require('../model/institutionSchema')
 
 // Create Institution
 const createinstitution = async (req, res) => {
     try {
-        const { name,  address, website, email, phone, contactPerson, status } = req.body;
-        const userID = req.headers.userID
+        const { id, name,  address, website, email, phone, contactPerson, status } = req.body;
+        // const userId = req.user.id
+       
 
-        console.log(userID);
+        console.log(id,name,address,website,email,phone,contactPerson,status);
        
         
         if (!req.file) {
@@ -17,21 +19,25 @@ const createinstitution = async (req, res) => {
         }
         
         const logo =  req.file.path 
+       console.log("logo",logo);
        
 
-        if (!name ||!logo || !address || !website || !email || !phone || !contactPerson || !userID) {
-            console.log("fille Error");
-            return res.status(400).json({ error: "All fields are required" });
+        if (!id ||!name ||!logo || !address || !website || !email || !phone || !contactPerson) {
+
+     return res.status(400).json({ error: "All fields are required" });
         }
+        const owner = (req.user._id);
 
         const newInstitution = new Institution({
-            name, logo, address, website, email, phone, contactPerson, status,userID
+
+            id ,name, logo, address, website, email, phone, contactPerson, status,owner
+
         });
- console.log(newInstitution);
+                 
  
         await newInstitution.save();
         res.status(201).json({ message: "Institution created successfully", institution: newInstitution });
-        console.log(newInstitution);
+        console.log( "new",newInstitution);
         
     } catch (error) {
         console.error("Error creating institution:", error);
@@ -42,24 +48,46 @@ const createinstitution = async (req, res) => {
 
 
 const viewInstitution = async (req, res) => {
-    const userID = req.headers.userID
+    const userID = req.user.id
+   
+    
     try {
-        const institutions = await Institution.find({userId:userID});
-        res.status(200).json(institutions);
+        const institutions = await Institution.findOne({owner:userID});
+        res.status(200).json({institution:institutions,userId:userID});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
+
 const updateInstitution = async (req, res) => {
     try {
-        const id = req.bod;
-        const {  name, address, website, email, phone, contactPerson, status } = req.body;
+
+     
+        console.log("Params:", req.params); // ✅ Log params
+        console.log("Body:", req.body); // ✅ Log body
+        console.log("File:", req.file);
+        
+        const institutionId = req.params.id;
+        console.log("backend",institutionId);
+        
+        const { id, name, address, website, email, phone, contactPerson, status } = req.body;
+        console.log(id,name,address);
+        
         const logo = req.file ? req.file.path : null;
 
-        const updatedData = { name, address, website, email, phone, contactPerson, status };
+        const updatedData = {id, name, address, website, email, phone, contactPerson, status };
         if (logo) updatedData.logo = logo; // Update logo only if a new file is uploaded
+console.log("updateddata",updatedData);
 
-        const updatedInstitution = await Institution.findByIdAndUpdate(id, updatedData, { new: true });
+const updatedInstitution = await Institution.findByIdAndUpdate(
+    institutionId,
+    { $set: updatedData }, // Using `$set` ensures only these fields are modified
+    { new: true } // Returns the updated document
+)
+
+        console.log("updatedprofile",updatedInstitution);
+        
 
         if (!updatedInstitution) {
             return res.status(404).json({ message: "Institution not found" });

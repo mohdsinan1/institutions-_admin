@@ -1,6 +1,8 @@
-const auths = require("../model/authSchema");
+const auth = require("../model/authSchema");
 const generateToken =require('../utils/generateToken');
 const bcrypt = require('bcrypt')
+const institution = require('../model/institutionSchema')
+const mongoose= require('mongoose')
 
 const register = async (req, res) => {
   const {name,email,password} = req.body
@@ -11,12 +13,12 @@ const register = async (req, res) => {
   }
   try {
 
-    let user = await auths.findOne({email})
+    let user = await auth.findOne({email})
 
     if(user) return res.status(400).json({message:"user already exsisted"})
     
       const hasedpassword = await bcrypt.hash(password,10)
-const newUser = new auths({
+const newUser = new auth({
   name,
   email,
   password:hasedpassword
@@ -27,8 +29,7 @@ const newUser = new auths({
 
     res.status(201).json(
        {massage:"created succsessfuly",token:generateToken(newUser._id),
-        user:newUser,
-        userID:newUser._id})
+        user:newUser})
   } catch (error) {
 
     console.log("error", error);
@@ -45,23 +46,41 @@ const newUser = new auths({
 const Login = async (req, res) => {
   try {
     const { email ,password } = req.body;
+// const userId = req.user.id
+
+console.log(email,password);
+
+// const profile = await inatitution.find({userId})
 
     if (!email||!password) {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    const user = await auths.findOne({ email });
+    const user = await auth.findOne({ email });
 
+    console.log("userId",user._id);
+    
     if (!user) {
+      console.log("not",user);
+      
       return res.status(404).json({ message: "User not found please sign up" });
     }
     console.log("Entered Password:", password);
     console.log("Stored Hashed Password:", user.password);
+
    const maching = await  bcrypt.compare(password,user.password);
+
 if(!maching) return res.status(400).json({ message: "Invalid credentials" })
 
-    res.status(201).json({masssage:"finded ",token:generateToken(user._id),user:user ,userID:user._id});
+  
+
+
+    res.status(201).json({masssage:"finded ",token:generateToken(user._id),
+
+      user:user});
+
   } catch (error) {
+
     console.log("error", error);
 
     res.status(500).json({ message: "Internal server error" });

@@ -1,8 +1,8 @@
 
-
+const path= require("path")
 const express = require ("express")
-const dotenv = require('dotenv').config()
- const port = process.env.PORT || 3001
+ require('dotenv').config()
+ 
  const route =require('./routes/route')
 const cors = require('cors')
 const institutionRouter = require ('../backend/routes/institutionRouter')
@@ -15,10 +15,12 @@ ConnecteDB()
 
 
 app.use(cors());
+
+app.use(express.urlencoded({ extended: true }))
 app.use("/auth", route);
 
 
-app.use('/uploads', express.static('uploads')); // Serve uploaded images
+app.use('/uploads',  express.static(path.join(__dirname, "uploads"))); // Serve uploaded images
 app.use('/institution', institutionRouter);
  
 

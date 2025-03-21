@@ -5,62 +5,56 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, signUpUser } from "../../../redux/features/AuthSlice";
 
 const LoginPopup = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [currState, setCurrState] = useState("Login");
 
-const[email,setEmail] =useState("")
-const[password,setPassword] = useState('')
-const [name,setName] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
-console.log("Name",name,"Email",email,"password",password);
+  console.log("Name", name, "Email", email, "password", password);
 
+  const { loading, user, token } = useSelector((state) => state.auth);
 
-  const {loading ,user,token} = useSelector((state) => state.auth)
-   
   console.log(loading);
-  
-  const setLogin = async (e)=>{
+
+  const setLogin = async (e) => {
     e.preventDefault();
 
-    dispatch(loginUser({ email, password })).then((result)=>{
-      if (result.meta.requestStatus === "fulfilled"){
-
-        navigate('/viewprofile')
-      }
-      else{
+    dispatch(loginUser({ email, password })).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate("/viewprofile");
+      } else {
         console.log("login  failed");
         navigate("/");
-        
       }
-    })    
-  }
-  const setSignUp = async (e)=>{
-
+    });
+  };
+  const setSignUp = async (e) => {
     console.log("signup is working");
-    
+
     e.preventDefault();
 
-    dispatch(signUpUser({name, email, password })).then((result)=>{
-      if (result.meta.requestStatus === "fulfilled"){
-       
-        navigate('/createprofile')
-      }
-      else{
+    dispatch(signUpUser({ name, email, password })).then((result) => {
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate("/createprofile");
+      } else {
         console.log("login  failed");
         navigate("/");
-        
       }
-    })    
-  }
- 
+    });
+  };
+
   console.log(currState);
-  
 
   return (
     <div className="login-popup">
-      <form className="login-popup-container " onSubmit={currState ==="Login"? setLogin: setSignUp}>
+      <form
+        className="login-popup-container "
+        onSubmit={currState === "Login" ? setLogin : setSignUp}
+      >
         <div className="login-popup-title">
           <h2>{currState}</h2>
 
@@ -68,13 +62,34 @@ console.log("Name",name,"Email",email,"password",password);
         </div>
         <div className="login-popup-inputs">
           {currState === "Login" ? null : (
-            <input type="text" placeholder="Enter Your name" required onChange={(e)=>{setName(e.target.value)}}/>
+            <input
+              type="text"
+              placeholder="Enter Your name"
+              required
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
           )}
-          <input type="email" placeholder="Enter Your email" required onChange={(e)=>{setEmail(e.target.value)}} />
-          <input type="password" placeholder="Enter Your Password" required onChange={(e)=>{setPassword(e.target.value)}}/>
+          <input
+            type="email"
+            placeholder="Enter Your email"
+            required
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Enter Your Password"
+            required
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         </div>
         <button className="looop" type="submit">
-          {loading === "loading" ? "loading .." :`${currState}` }
+          {loading === "loading" ? "loading .." : `${currState}`}
         </button>
         <div className="login-popup-condition">
           <p className="fry">
@@ -93,7 +108,6 @@ console.log("Name",name,"Email",email,"password",password);
           </p>
         )}
       </form>
-    
     </div>
   );
 };

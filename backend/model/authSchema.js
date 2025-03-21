@@ -1,5 +1,5 @@
-const { default: mongoose } = require("mongoose");
-const institution = require("./institutionSchema");
+const  mongoose  = require("mongoose");
+
 
 const authSchema = new mongoose.Schema({
     name : {type:String,required:true},
@@ -12,4 +12,4 @@ const authSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model("auths",authSchema)
+module.exports = mongoose.model("auth",authSchema)

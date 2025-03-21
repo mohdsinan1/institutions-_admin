@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { logoOut } from "./AuthSlice";
 
 
 
@@ -13,14 +14,38 @@ export const createInstitutionProfile = createAsyncThunk("profile/createProfile"
         const responce = await fetch ("http://localhost:8089/institution/insti",{
             method:"POST",
             headers:{
-               
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                "userID": localStorage.getItem("userID") 
+            
+                Authorization: `Bearer ${localStorage.getItem("tokenaccess")}`,
+    
             },
             body:profiledata
         })
     const data = await responce.json()
+    console.log( "slice",data);
+        if(!responce.ok){
+            return rejectWithValue(data.message ||"invalid Credentials")
+        }
+        return data
+      
+        
+    } catch (error) {
+        return rejectWithValue("Network error please try again")
+    }
+    
+})
 
+export const getProfile = createAsyncThunk("profile/getProfile", async (profileId,{rejectWithValue})=>{
+    try {
+        const responce = await fetch(`http://localhost:8089/institution/insti/${profileId}`,{
+            method:"GET",
+            headers:{
+                
+              "Authorization": `Bearer ${localStorage.getItem("tokenaccess")}`,       
+             }
+        })
+        const data = await responce.json();
+       
+        
         if(!responce.ok){
             return rejectWithValue(data.message ||"invalid Credentials")
         }
@@ -28,36 +53,39 @@ export const createInstitutionProfile = createAsyncThunk("profile/createProfile"
     } catch (error) {
         return rejectWithValue("Network error please try again")
     }
-
 })
 
-export const getProfile = createAsyncThunk("profile/getProfile", async ({rejectWithValue})=>{
+export const updateinstitution = createAsyncThunk("profile/updateinstitution",async({profileid,formData},{rejectWithValue})=>{
+    console.log( "update param",formData ,profileid);
+    
     try {
-        const responce = await fetch("http://localhost:8089/institution",{
-            method:"GET",
-            headers:{
-                
-              "Authorization": `Bearer ${localStorage.getItem("tokenaccess")}`,
-              "userID": localStorage.getItem("userID")        
-             }
+        const responce = await fetch(`http://localhost:8089/institution/insti/${profileid}`,{
+        method:"PUT",
+        headers:{"Authorization": `Bearer ${localStorage.getItem("tokenaccess")}`,   },
+        body: formData,
         })
-        const data = await responce.json();
-        console.log(data);
+        const resdata = await responce.json();
+        console.log("update res",resdata);
         
-        if(!responce.ok){
-            return rejectWithValue(data.message ||"invalid Credentials")
-        }
+
+if(!responce.ok){
+    return rejectWithValue(data.message || "invalid Credential")
+}
+
+return resdata
+
     } catch (error) {
-        return rejectWithValue("Network error please try again")
+
+        return rejectWithValue("network error pleas try again")
+        
     }
 })
-
 
 
 const profileslice = createSlice({
     name:"profile",
     initialState :{
-        insttution :null,
+        institution :{},
         loading:null,
         error:null
     },
@@ -66,14 +94,15 @@ const profileslice = createSlice({
         builder
         .addCase(createInstitutionProfile.pending, (state) =>{
             state.loading = "loading"
+           
+            
         })
         .addCase(createInstitutionProfile.fulfilled, (state ,action) =>{
             state.loading = "fulfilled",
-            state.insttution = action.payload.institution,
+            state.institution = action.payload.institution,
             state.error = null
-            if(action?.payload?.initialState.userID){
-                localStorage.setItem("userID",action.payload.institution.userID)
-            }
+           
+            
         })
         .addCase(createInstitutionProfile.rejected,(state , action) =>{
             state.loading = "failed",
@@ -81,18 +110,39 @@ const profileslice = createSlice({
         })
         .addCase(getProfile.pending, (state) =>{
             state.loading = "loading"
+           
+            
         })
         .addCase(getProfile.fulfilled, (state ,action) =>{
             state.loading = "fulfilled",
-            state.insttution = action.payload.institution,
+            state.institution = action.payload.institution,
             state.error = null
-            if(action.payload.initialState.userID){
-                localStorage.setItem("userID",action.payload.institution.userID)
-            }
+           
+            
         })
         .addCase(getProfile.rejected,(state , action) =>{
             state.loading = "failed",
+            state.error = action.payload.institution
+        })
+        .addCase(updateinstitution.pending, (state) =>{
+            state.loading = "loading"
+        })
+        .addCase(updateinstitution.fulfilled, (state ,action) =>{
+            state.loading = "fulfilled",
+            console.log("Redux Update Response:", action.payload);
+            state.institution = action.payload,
+            state.error = null
+            
+        })
+        .addCase(updateinstitution.rejected,(state , action) =>{
+            state.loading = "failed",
             state.error = action.payload
+        })
+        .addCase(logoOut ,(state) =>{
+            state.institution={}
+            state.loading = null,
+            state.error = null
+
         })
     }
     

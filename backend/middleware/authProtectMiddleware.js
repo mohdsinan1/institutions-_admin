@@ -1,23 +1,24 @@
-const jwt = require('jsonwebtoken')
-require("dotenv").config()
-const protect =(req,res,next) =>{
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const token = req.header.authorization
-if (!token||!token.startseith("Bearer")) return res.states(400).json({message:"invalide "})
+const protect = (req, res, next) => {
+  let token = req.headers.authorization;
 
-try {
-    token =token.split(" ")[1]
+ 
 
-    const decoded = jwt.verify(token,process.env.JWT_SECRET_KEY)
+  if (!token || !token.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Invalid or missing token" });
+  }
 
-    req.user = decoded
-      next()
+  try {
+    token = token.split(" ")[1]; // ✅ Extract token correctly
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    req.user = decoded; // ✅ Attach user data to request
+    next();
+  } catch (error) {
+    console.error("Token verification error:", error);
+    return res.status(403).json({ message: "Invalid token" });
+  }
+};
 
-} catch (error) {
-    res.states(400).json({message:"invalid token"})
-}
-
-
-}
-
-module.exports= protect;
+module.exports = protect;

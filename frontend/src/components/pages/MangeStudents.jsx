@@ -32,7 +32,7 @@ function MangeStudents() {
           <Dashbord />
         </div>
 
-        <div className="p-5  col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5 " >
+        <div className="p-5  col-lg-8 col-md-6 col-sm-4 position-absolute end-0 me-5 ">
           <div className="container-fluid mt-3">
             <div className="card shadow p-3">
               <h4 className="text-center mb-5 ">Student Registration</h4>
@@ -183,7 +183,10 @@ function MangeStudents() {
                   </div>
 
                   <div className="col-12 text-center mt-2">
-                    <button type="submit" className="btn btn-primary btn-sm px-4">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-sm px-4"
+                    >
                       Submit
                     </button>
                   </div>

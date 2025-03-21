@@ -2,35 +2,62 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Dashbord from "./Dashbord";
 import "../style/EditProfile.css";
+import { useDispatch, useSelector } from "react-redux";
+import { updateinstitution } from "../../../redux/features/institutionslice";
 
-function EditProfile() {
+ function EditProfile () {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { institution } = useSelector((state) => state.profile);
+  console.log("_id",institution._id);
 
+  const profileid = institution._id;
   // Get existing profile data or initialize a new one
-  const existingProfile = location.state?.profile || {
-    id: "",
-    name: "",
-    logo: "",
-    address: "",
-    website: "",
-    email: "",
-    phone: "",
-    contactPerson: "",
-    status: "Approved",
-  };
+  const [newprofile, setNewProfile] = useState({
+      id: "",
+      name: "",
+      address: "",
+      website: "",
+      email: "",
+      phone: "",
+      contactPerson: "",
+      status: "pending",
+    });
 
-  const [formData, setFormData] = useState(existingProfile);
+    const [logo,setLogo] = useState(null)
+const handleChange = (e) =>{
+  const {name ,value} = e.target;
+  setNewProfile((prev) =>{
+    return {...prev,[name]:value}
+  })
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+}
+const handlefileChange = (e) =>{
+  
+  setNewProfile((prev) =>{
+    return {...prev,logo:e.target.files[0]}
+  })
 
-  const handleSubmit = (e) => {
+}
+ 
+
+ 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Navigate back with updated data
-    navigate("/viewprofile", { state: { profile: formData } });
+    const newformDateToSent = new FormData();
+
+    Object.keys(newprofile).forEach((key) => {
+      newformDateToSent.append(key, newprofile[key]);
+    });
+
+    if (logo) {
+      newformDateToSent.append("logo", logo);
+    }
+
+    await dispatch(updateinstitution({profileid,formData:newformDateToSent }));
+    navigate("/viewprofile");
   };
 
   return (
@@ -52,7 +79,7 @@ function EditProfile() {
                       type="text"
                       className="form-control"
                       name="id"
-                      value={formData.id}
+                      value={newprofile.id}
                       onChange={handleChange}
                       required
                     />
@@ -65,7 +92,7 @@ function EditProfile() {
                       type="text"
                       className="form-control"
                       name="name"
-                      value={formData.name}
+                      value={newprofile.name}
                       onChange={handleChange}
                       required
                     />
@@ -79,7 +106,7 @@ function EditProfile() {
                       className="form-control"
                       name="logo"
                       accept="image/*"
-                      onChange={handleChange}
+                      onChange={handlefileChange}
                     />
                   </div>
 
@@ -90,7 +117,7 @@ function EditProfile() {
                       type="text"
                       className="form-control"
                       name="address"
-                      value={formData.address}
+                      value={newprofile.address}
                       onChange={handleChange}
                       required
                     />
@@ -103,7 +130,7 @@ function EditProfile() {
                       type="url"
                       className="form-control"
                       name="website"
-                      value={formData.website}
+                      value={newprofile.website}
                       onChange={handleChange}
                     />
                   </div>
@@ -115,7 +142,7 @@ function EditProfile() {
                       type="email"
                       className="form-control"
                       name="email"
-                      value={formData.email}
+                      value={newprofile.email}
                       onChange={handleChange}
                       required
                     />
@@ -128,7 +155,7 @@ function EditProfile() {
                       type="tel"
                       className="form-control"
                       name="phone"
-                      value={formData.phone}
+                      value={newprofile.phone}
                       onChange={handleChange}
                       required
                     />
@@ -141,29 +168,20 @@ function EditProfile() {
                       type="text"
                       className="form-control"
                       name="contactPerson"
-                      value={formData.contactPerson}
+                      value={newprofile.contactPerson}
                       onChange={handleChange}
                       required
                     />
                   </div>
 
-                  {/* Status */}
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label">Status</label>
-                    <select
-                      className="form-select"
-                      name="status"
-                      value={formData.status}
-                      onChange={handleChange}
-                    >
-                      <option value="Approved">Approved</option>
-                      <option value="Blocked">Blocked</option>
-                    </select>
-                  </div>
+                  
 
                   {/* Submit & Reset Buttons */}
                   <div className="col-12 text-center mt-4">
-                    <button type="submit" className="btn btn-outline-primary mx-2">
+                    <button
+                      type="submit"
+                      className="btn btn-outline-primary mx-2"
+                    >
                       Save Changes
                     </button>
                     <button
