@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom';
 
 function ProtectRoute({children}) {
-    const token = useSelector((state) => state.auth.token)
+  console.log("protect route is working");
+  
+    const token = useSelector((state) => state.auth.token)||localStorage.getItem("tokenaccess")
   console.log("token",token);
   
     
