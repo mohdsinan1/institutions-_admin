@@ -11,7 +11,7 @@ export const createInstitutionProfile = createAsyncThunk("profile/createProfile"
    
         
 
-        const responce = await fetch ("http://localhost:8089/institution/insti",{
+        const responce = await fetch ("http://localhost:8080/institution/insti",{
             method:"POST",
             headers:{
             
@@ -36,7 +36,7 @@ export const createInstitutionProfile = createAsyncThunk("profile/createProfile"
 
 export const getProfile = createAsyncThunk("profile/getProfile", async (profileId,{rejectWithValue})=>{
     try {
-        const responce = await fetch(`http://localhost:8089/institution/insti/${profileId}`,{
+        const responce = await fetch(`http://localhost:8080/institution/insti/${profileId}`,{
             method:"GET",
             headers:{
                 
@@ -59,7 +59,7 @@ export const updateinstitution = createAsyncThunk("profile/updateinstitution",as
     console.log( "update param",formData ,profileid);
     
     try {
-        const responce = await fetch(`http://localhost:8089/institution/insti/${profileid}`,{
+        const responce = await fetch(`http://localhost:8080/institution/insti/${profileid}`,{
         method:"PUT",
         headers:{"Authorization": `Bearer ${localStorage.getItem("tokenaccess")}`,   },
         body: formData,
@@ -130,7 +130,7 @@ const profileslice = createSlice({
         .addCase(updateinstitution.fulfilled, (state ,action) =>{
             state.loading = "fulfilled",
             console.log("Redux Update Response:", action.payload);
-            state.institution = action.payload,
+            state.institution = action.payload.institution,
             state.error = null
             
         })

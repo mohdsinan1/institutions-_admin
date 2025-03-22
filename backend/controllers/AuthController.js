@@ -25,7 +25,7 @@ const newUser = new auth({
 })
       await newUser.save();
 
-    console.log(newUser);
+    console.log(newUser._id);
 
     res.status(201).json(
        {massage:"created succsessfuly",token:generateToken(newUser._id),
@@ -33,8 +33,7 @@ const newUser = new auth({
   } catch (error) {
 
     console.log("error", error);
-
-    res.status(500).json({message:"internal erro"})
+    res.status(500).json({message:"internal error"})
   }
 };
 
@@ -58,7 +57,8 @@ console.log(email,password);
 
     const user = await auth.findOne({ email });
 
-    console.log("userId",user._id);
+   console.log("id",user._id);
+   
     
     if (!user) {
       console.log("not",user);
@@ -73,11 +73,15 @@ console.log(email,password);
 if(!maching) return res.status(400).json({ message: "Invalid credentials" })
 
   
+const token = generateToken(user._id)
+console.log("authtttt",token);
 
-
-    res.status(201).json({masssage:"finded ",token:generateToken(user._id),
+    res.status(201).json({masssage:"finded ",token:token,
 
       user:user});
+
+      
+      
 
   } catch (error) {
 

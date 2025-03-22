@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{rejectWithValue}) =>{
   try {
-    const responce = await fetch ("http://localhost:8089/auth/signup",{
+    const responce = await fetch ("http://localhost:8080/auth/signup",{
     
       method: "POST",
       headers: { "Content-type": "application/json" ,
@@ -13,6 +13,9 @@ export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{reject
     })
   
     const data =  await responce.json();
+
+    console.log("signup",data);
+    
   
   if(!responce.ok){
     return rejectWithValue(data.message ||"invalid Credentials")
@@ -32,7 +35,7 @@ export const signUpUser = createAsyncThunk("auth/signUpUser",async (user,{reject
 export const loginUser = createAsyncThunk("auth/loginUser", async (user) => {
   console.log("login",user);
   
-  const responce = await fetch('http://localhost:8089/auth/login', {
+  const responce = await fetch('http://localhost:8080/auth/login', {
     method: "POST",
     headers: { "Content-type": "application/json",
        Authorization: `Bearer ${localStorage.getItem("tokenaccess")}`,

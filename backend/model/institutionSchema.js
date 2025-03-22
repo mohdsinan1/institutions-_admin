@@ -10,7 +10,7 @@ const InstitutionSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
     contactPerson: { type: String, required: true },
-    status: { type: String, enum: ['pending','Approved', 'Blocked'], default: 'Approved' },
+    status: { type: String, enum: ['pending','approved', 'blocked'], default: 'pending' },
     owner:{type:mongoose.Schema.Types.ObjectId ,ref:"auth",require:true}
 }, { timestamps: true });
 

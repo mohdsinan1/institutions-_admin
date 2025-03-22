@@ -27,6 +27,7 @@ const createinstitution = async (req, res) => {
      return res.status(400).json({ error: "All fields are required" });
         }
         const owner = (req.user._id);
+console.log("owner",owner);
 
         const newInstitution = new Institution({
 
@@ -48,7 +49,7 @@ const createinstitution = async (req, res) => {
 
 
 const viewInstitution = async (req, res) => {
-    const userID = req.user.id
+    const userID = req.user._id
    
     
     try {

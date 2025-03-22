@@ -35,7 +35,7 @@ const handleChange = (e) =>{
 }
 const handlefileChange = (e) =>{
   
-  setNewProfile((prev) =>{
+  setLogo((prev) =>{
     return {...prev,logo:e.target.files[0]}
   })
 
@@ -105,6 +105,7 @@ const handlefileChange = (e) =>{
                       type="file"
                       className="form-control"
                       name="logo"
+                      value={newprofile.logo}
                       accept="image/*"
                       onChange={handlefileChange}
                     />
