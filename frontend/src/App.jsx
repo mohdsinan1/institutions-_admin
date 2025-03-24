@@ -8,21 +8,30 @@ import Login from "./components/Login/Login";
 import CreateProfile from "./components/pages/CreateProfile";
 import Dashboard from "./components/pages/Dashbord";
 import ProtectRoute from "../protectRoute/protectRoute";
+import NotAuthorized from "./components/pages/NotAuthorized";
+import StatusProtectedRoute from "../protectRoute/StatusProtectRoute";
+import RejectedProfile from "./components/pages/RejectedProfile";
 
 function App() {
 
   return (
  
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="viewprofile" element={<ProtectRoute> <ViewProfile /></ProtectRoute>} />
-        <Route path="editprofile" element={<ProtectRoute><EditProfile /></ProtectRoute>} />
-        <Route path="mangestudents" element={<ProtectRoute><MangeStudents /></ProtectRoute>} />
-        <Route path="mangecourses" element={<ProtectRoute><MangeCourses /></ProtectRoute>} />
-        <Route path="voucher" element={<ProtectRoute><Voucher /></ProtectRoute>} />
-        <Route path="createprofile" element={<ProtectRoute><CreateProfile /></ProtectRoute>} />
-        <Route path="dashbord" element={<ProtectRoute><Dashboard /></ProtectRoute>} />
-      </Routes>
+    <Routes>
+    {/* Public Routes */}
+    <Route path="/" element={<Login />} />
+    <Route path="not-authorized" element={<NotAuthorized />} />
+    <Route path = "rejected-profile" element ={<RejectedProfile/>}/>
+  
+    {/* Protected Routes (Authenticated Users Only) */}
+    <Route path="viewprofile" element={<ProtectRoute><ViewProfile /></ProtectRoute>} />
+    <Route path="editprofile" element={<ProtectRoute><StatusProtectedRoute><EditProfile /></StatusProtectedRoute></ProtectRoute>} />
+    <Route path="mangestudents" element={<ProtectRoute><StatusProtectedRoute><MangeStudents /></StatusProtectedRoute></ProtectRoute>} />
+    <Route path="mangecourses" element={<ProtectRoute><StatusProtectedRoute><MangeCourses /></StatusProtectedRoute></ProtectRoute>} />
+    <Route path="voucher" element={<ProtectRoute> <StatusProtectedRoute><Voucher /></StatusProtectedRoute></ProtectRoute>} />
+    <Route path="createprofile" element={<ProtectRoute><CreateProfile /></ProtectRoute>} />
+    <Route path="dashbord" element={<ProtectRoute><Dashboard /></ProtectRoute>} />
+  </Routes>
+  
    
   );
 

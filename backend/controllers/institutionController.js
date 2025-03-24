@@ -4,7 +4,7 @@ const Institution = require('../model/institutionSchema')
 // Create Institution
 const createinstitution = async (req, res) => {
     try {
-        const { id, name,  address, website, email, phone, contactPerson, status } = req.body;
+        const { id, name,  address, website, email, phone, contactPerson, status  } = req.body;
         // const userId = req.user.id
        
 
@@ -49,7 +49,7 @@ console.log("owner",owner);
 
 
 const viewInstitution = async (req, res) => {
-    const userID = req.user._id
+    const userID = req.user._id 
    
     
     try {

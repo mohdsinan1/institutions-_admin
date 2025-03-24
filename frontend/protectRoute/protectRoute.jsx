@@ -7,6 +7,7 @@ function ProtectRoute({children}) {
   console.log("protect route is working");
   
     const token = useSelector((state) => state.auth.token)||localStorage.getItem("tokenaccess")
+    
   console.log("token",token);
   
     

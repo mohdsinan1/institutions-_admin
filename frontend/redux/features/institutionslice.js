@@ -87,7 +87,8 @@ const profileslice = createSlice({
     initialState :{
         institution :{},
         loading:null,
-        error:null
+        error:null,
+        status: localStorage.getItem("institutionStatus") ||"pending"
     },
     reducers:{},
     extraReducers :(builder) =>{
@@ -100,7 +101,9 @@ const profileslice = createSlice({
         .addCase(createInstitutionProfile.fulfilled, (state ,action) =>{
             state.loading = "fulfilled",
             state.institution = action.payload.institution,
-            state.error = null
+            state.status = action.payload.institution.status,
+            state.error = null,
+            localStorage.setItem("institutionStatus", action.payload.institution.status);
            
             
         })
@@ -116,7 +119,9 @@ const profileslice = createSlice({
         .addCase(getProfile.fulfilled, (state ,action) =>{
             state.loading = "fulfilled",
             state.institution = action.payload.institution,
-            state.error = null
+            state.status = action.payload.institution.status,
+            state.error = null,
+            localStorage.setItem("institutionStatus", action.payload.institution.status);
            
             
         })
@@ -131,7 +136,9 @@ const profileslice = createSlice({
             state.loading = "fulfilled",
             console.log("Redux Update Response:", action.payload);
             state.institution = action.payload.institution,
+            state.status = action.payload.institution.status,
             state.error = null
+            localStorage.setItem("institutionStatus", action.payload.institution.status);
             
         })
         .addCase(updateinstitution.rejected,(state , action) =>{
@@ -141,7 +148,9 @@ const profileslice = createSlice({
         .addCase(logoOut ,(state) =>{
             state.institution={}
             state.loading = null,
-            state.error = null
+            state.error = null,
+            state.status = "pending"
+            localStorage.removeItem("institutionStatus");
 
         })
     }

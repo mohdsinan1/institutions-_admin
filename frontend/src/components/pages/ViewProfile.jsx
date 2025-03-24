@@ -34,7 +34,7 @@ function ViewProfile() {
 
   return (
     <>
-      <div className="profile-container">
+      <div className="profile-container row">
       <div>
         <Dashbord />
       </div>

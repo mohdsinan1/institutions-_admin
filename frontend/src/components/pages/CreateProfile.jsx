@@ -18,7 +18,7 @@ function CreateProfile() {
     email: "",
     phone: "",
     contactPerson: "",
-    status: "pending",
+    status: "Pending",
   });
 
   const [logo, setLogo] = useState(null);
